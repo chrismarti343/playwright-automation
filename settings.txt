@@ -1,0 +1,4 @@
+root: C:\Users\chris\Documents\playright 
+path: C:\Program Files\nodejs 
+arch: 64 
+proxy: none
