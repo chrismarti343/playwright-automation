@@ -6,7 +6,7 @@ import { HomePage } from './pages/HomePage';
 let browser: Browser;
 let page: Page;
 
-test.describe('FreeTerster navigation', () => { // Add comma here
+test.describe('FreeTerster navigation', () => { 
   
   test('Links are working correctly', async ({ page }) => {
 
