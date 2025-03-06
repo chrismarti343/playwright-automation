@@ -40,4 +40,4 @@ steps:
     displayName: Publish Test Report
     condition: succeeded()  # Check if previous step succeeded
     inputs:
-      reportDir: 'report/report.html'
+      reportDir: 'playwright-report/index.html'
