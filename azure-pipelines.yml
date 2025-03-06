@@ -35,3 +35,9 @@ steps:
     publishLocation: 'pipeline'
   condition: succeededOrFailed()
   displayName: 'Publish HTML report' 
+
+- task: PublishHtmlReport@1
+    displayName: Publish Test Report
+    condition: succeeded()  # Check if previous step succeeded
+    inputs:
+      reportDir: 'report/report.html'
