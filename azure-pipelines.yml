@@ -1,5 +1,10 @@
 trigger:
-  - main  # or your default branch
+  branches:
+    include:
+    - main  # or whatever branch you're pushing to
+  paths:
+    include:
+    - '*'  # trigger on any file change
 
 pool:
   vmImage: 'ubuntu-latest'  # You can use windows-latest or macOS-latest as well
