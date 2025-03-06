@@ -36,8 +36,8 @@ steps:
   condition: succeededOrFailed()
   displayName: 'Publish HTML report' 
 
-- task: PublishHtmlReport@1
-    displayName: Publish Test Report
-    condition: succeeded()  # Check if previous step succeeded
-    inputs:
-      reportDir: 'playwright-report/index.html'
+# - task: PublishHtmlReport@1
+#     displayName: Publish Test Report
+#     condition: succeeded()  # Check if previous step succeeded
+#     inputs:
+#       reportDir: 'playwright-report/index.html'
