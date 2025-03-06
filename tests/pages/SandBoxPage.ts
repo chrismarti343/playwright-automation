@@ -49,7 +49,7 @@ export class SandBoxPage {
     }
 
 
-        /**
+     /**
      * Checks a checkbox by label and verifies it's checked
      * @param label - The label text of the checkbox
      */
@@ -58,7 +58,7 @@ export class SandBoxPage {
         await expect(this.page.getByLabel(label), `${label} box is not checked`).toBeChecked();
     }
 
- /**
+     /**
      * Gets the dropdown list options excluding empty and default values
      * @returns Promise<string[]> - Array of dropdown options
      */

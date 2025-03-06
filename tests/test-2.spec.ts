@@ -60,7 +60,6 @@ test.describe('Practicing with tables', () => { // Add comma here
     const sandboxPage = new SandBoxPage(page);
 
     await test.step('Go to the page SandPage', async () => {
-      
       await sandboxPage.navigateToPage();
       await sandboxPage.verifyPage("Automation Sandbox");
     });

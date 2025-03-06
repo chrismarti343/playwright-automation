@@ -1,0 +1,37 @@
+trigger:
+  - main  # or your default branch
+
+pool:
+  vmImage: 'ubuntu-latest'  # You can use windows-latest or macOS-latest as well
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '18.x'  # Use an appropriate Node.js version
+  displayName: 'Install Node.js'
+
+- script: |
+    npm ci
+    npx playwright install --with-deps chromium
+  displayName: 'Install dependencies and Playwright browsers'
+
+- script: |
+    npx playwright test tests/test-2.spec.ts
+  displayName: 'Run Playwright tests'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: 'playwright-report/junit-results.xml'
+    mergeTestResults: true
+    testRunTitle: 'Playwright Tests'
+  condition: succeededOrFailed()
+  displayName: 'Publish test results'
+
+- task: PublishPipelineArtifact@1
+  inputs:
+    targetPath: 'playwright-report'
+    artifact: 'playwright-report'
+    publishLocation: 'pipeline'
+  condition: succeededOrFailed()
+  displayName: 'Publish HTML report' 
