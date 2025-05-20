@@ -1,7 +1,7 @@
 trigger:
   branches:
     include:
-    - main  # or whatever branch you're pushing to
+    - master  # or whatever branch you're pushing to
   paths:
     include:
     - '*'  # trigger on any file change
