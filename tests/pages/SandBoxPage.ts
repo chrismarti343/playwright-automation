@@ -1,20 +1,14 @@
 import {expect, type Locator, type Page} from '@playwright/test';
+import { SuperPage } from './SuperPage';
 
-export class SandBoxPage {
-    readonly page: Page;
-    readonly secondColumn: Locator;
-    readonly getPastaLabel: Locator;
-    readonly dropList: Locator;
-    readonly getDrop: Locator;
+export class SandBoxPage extends SuperPage {
+
 
     readonly baseUrl: string = 'https://thefreerangetester.github.io/sandbox-automation-testing/';
 
     constructor(page: Page) {
-        this.page = page;
-        this.secondColumn = page.locator('h2:has-text("Tabla estática") + table tbody tr td:nth-child(2)');
-        this.getPastaLabel = page.getByLabel('Pasta 🍝');
-        this.dropList = page.locator('select[id="formBasicSelect"]');
-        this.getDrop = page.locator('select[id="formBasicSelect"] option');
+        super(page);
+       
     }
 
       /**
@@ -27,16 +21,12 @@ export class SandBoxPage {
             await this.page.goto(this.baseUrl);
             await this.page.waitForLoadState('networkidle');
         } catch (error) {
-            throw new Error(`Failed to navigate to ${this.baseUrl}: ${error}`);
+            throw new Error(`Failed to navigate to sandbox page: ${error}`);
         }
     }
 
-     /**
-     * Verifies the page title matches the expected value
-     * @param expectedTitle - The expected page title
-     */
-     async verifyPage(expectedTitle: string): Promise<void> {
-        await expect(this.page).toHaveTitle(expectedTitle, { timeout: 5000 });
+    async getPageTitle(): Promise<string> {
+        return await this.page.title();
     }
 
      /**
@@ -44,12 +34,15 @@ export class SandBoxPage {
      * @param expectedNames - Array of expected names
      * @param columnValues - Array of actual column values
      */
-     async verifyExpectedNames(expectedNames: string[], columnValues: string[]): Promise<void> {
+     async verifyExpectedNames(
+        expectedNames ?: string[], 
+        columnValues ?: string[])
+        : Promise<void> {
         await expect(columnValues).toEqual(expectedNames);
     }
 
 
-     /**
+     /**npx playwright install  
      * Checks a checkbox by label and verifies it's checked
      * @param label - The label text of the checkbox
      */

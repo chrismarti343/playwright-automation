@@ -1,28 +1,26 @@
-import { test, Browser, Page, expect } from '@playwright/test';
+import { Browser, Page } from '@playwright/test';
 import { generateRandomWord } from './utils/randomWord';
+import {test, expect} from './utils/fixtureShop';
 
 let browser: Browser;
 let page: Page;
 
 test.describe('Shopping navigation ', () => { 
 
-    test('Add a product to the cart ', async ({ page }) => {
+    test(`Add a product to the cart `, async ({ page, homeShopping }) => {
   
       await test.step(`Go to the main URL`, async () => {
         await page.goto('https://opencart.abstracta.us/index.php?route=common/home');
         await expect(page).toHaveTitle("Your Store");
       });
   
-      await test.step(`Click on add to cart `, async () => {
-        await page.locator('#content div').filter({ hasText: 'MacBook Intel Core 2 Duo' }).nth(2)
-        .getByRole('button').filter({ hasText: 'Add to Cart' }).click();
-        
-      await expect(page.locator('div').getByRole('button', { name: ' 1 item(s) - $' })).toContainText(' 1 item(s) - $602.00');
+      await test.step(`Click on add to cart `, async ( ) => {
+        await homeShopping.selectFirtItem();
+        await expect(page.locator('div').getByRole('button', { name: ' 1 item(s) - $' })).toContainText(' 1 item(s) - $602.00');
       });
 
       await test.step('Click in ckeck cart', async () => {
-        await page.getByRole('button', { name: ' 1 item(s) - $' }).click();
-        await page.getByRole('link', { name: ' View Cart' }).click();
+        await homeShopping.gotoCheckCart;
       });
 
       await test.step('Click in ckeck out', async () => {

@@ -1,20 +1,19 @@
-import { test, Browser, Page, expect } from '@playwright/test';
-import exp from 'constants';
-import { SandBoxPage } from './pages/SandBoxPage';  
-import { HomePage } from './pages/HomePage';
+import { Browser, Page } from '@playwright/test';
+import { test, expect } from './utils/fixtures';  // Import from your fixtures file
 
 let browser: Browser;
 let page: Page;
 
+
+
 test.describe('FreeTerster navigation', () => { 
   
-  test('Links are working correctly', async ({ page }) => {
-
-    const homePage = new HomePage(page);
+  test('Links are working correctly', async ({ homePage }) => {
 
     await test.step(`Checking if homepage is loaded`, async () => {
       await homePage.navigateToHome();
-      await homePage.verifyPageTitle("Free Range Testers");
+      const verifyTitle = 'Free Range Testers';
+      await homePage.verifyPageTitle(verifyTitle);
     });
 
     await test.step(`When I click on Cursos`, async () => {
@@ -34,17 +33,15 @@ test.describe('Testing navigation links ', () => {
   for (const section of sections) {
 
     //It will scape this test since is using function skip
-    test.skip(`Vallidating section:  "${section.name}"`, async ({ page }) => {
+    test.skip(`Vallidating section:  "${section.name}"`, async ({ page, homePage }) => {
 
 
       await test.step('Validating home page', async () => {
-        const homePage = new HomePage(page);
         await homePage.navigateToHome();
         await expect(page).toHaveTitle("Free Range Testers");
       });
 
-      await test.step(`Cuando hago click en "${section.name}"`, async () => {
-        const homePage = new HomePage(page);
+      await test.step(`When I click in  "${section.name}"`, async () => {
         await homePage.coursesLink.click();
         await page.waitForURL('**' + section.url); // Add space before section.url
       });
@@ -55,13 +52,12 @@ test.describe('Testing navigation links ', () => {
 
 test.describe('Practicing with tables', () => { // Add comma here
 
-  test('Getting text from a table', async ({ page }) => {
-
-    const sandboxPage = new SandBoxPage(page);
+  test('Getting text from a table', async ({ sandboxPage }) => {
 
     await test.step('Go to the page SandPage', async () => {
       await sandboxPage.navigateToPage();
-      await sandboxPage.verifyPage("Automation Sandbox");
+      const pageTitle = await sandboxPage.getPageTitle();
+      await expect(pageTitle).toBe("Automation Sandbox");
     });
 
     await test.step('Verify names from a static table', async () => {
@@ -69,31 +65,30 @@ test.describe('Practicing with tables', () => { // Add comma here
       const columnValues = await sandboxPage.secondColumn.allTextContents();
       const expectedNames = ['Messi', 'Ronaldo', 'Mbappe'];
       console.log("Results are here: ", columnValues);
-      sandboxPage.verifyExpectedNames(expectedNames,columnValues);
+      await sandboxPage.verifyExpectedNames(expectedNames,columnValues);
   })
   });
 })
 
 test.describe('Testing assertions', () => {
 
-  test('Testing check boxes', async ({ page }) => {
-
-    const sandboxPage = new SandBoxPage(page);
+  test('Testing check boxes', async ({ page, sandboxPage }) => {
 
     await test.step(`Go to the page`, async () => {
-      
       await sandboxPage.navigateToPage();
-      await sandboxPage.verifyPage("Automation Sandbox");
+      // await sandboxPage.verifyPage("Automation Sandbox");
     });
 
     await test.step('Check box', async () => {
-      await sandboxPage.checkBox("Pasta 🍝");
+      const checkBox = 'Pasta 🍝';
+      await sandboxPage.checkBox(checkBox);
     });
 
     await test.step('Check box', async () => {
       await sandboxPage.getPastaLabel.check();
       await sandboxPage.getPastaLabel.uncheck();
-      await expect(sandboxPage.getPastaLabel, 'This box should not be checked').not.toBeChecked();
+      const errorMessage = 'This box should not be checked';
+      await expect(sandboxPage.getPastaLabel, errorMessage).not.toBeChecked();
     });
 
     await test.step('Check Colum Name', async () => {
@@ -115,9 +110,9 @@ test.describe('Testing assertions', () => {
     })
 
 
-    // just assing a testing mesagge
-    //more commggggggggg more
 
   });
 })
+
+
 
