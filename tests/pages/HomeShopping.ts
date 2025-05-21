@@ -9,9 +9,9 @@ export class HomeShopping extends SuperShoppingPage {
     }
 
 
-    async selectFirtItem(): Promise <void> {
+    async selectFirstItem(): Promise <void> {
         try {
-            await this.macBook.click();
+            this.macBook && await this.macBook.click();
         }
         catch (error) {
             throw new Error(`Failed to navigate to macBook: ${error}`);
@@ -20,13 +20,22 @@ export class HomeShopping extends SuperShoppingPage {
 
     async gotoCheckCart(): Promise <void> {
         try{
-            await this.itemBoton.click();
-            await this.viewCart.click();  
+            this.shoppingCartBoton && await this.shoppingCartBoton.click();
+             
         }
         catch (error){
             throw new Error(`Failed to navigate to Check cart: ${error}`)
         }
     }
 
+
+    async gotoCheckOut(): Promise <void> {
+        try{
+          
+        }
+        catch (error){
+            throw new Error(`Failed to navigate to Checkout: ${error}`)
+        }
+    }
 
 }

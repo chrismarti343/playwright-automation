@@ -1,5 +1,6 @@
 import {test as base} from '@playwright/test';
 import { HomeShopping } from '../pages/HomeShopping';
+
 type Pages = {
 
     page: Pages;

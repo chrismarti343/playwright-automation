@@ -1,6 +1,6 @@
 import { Browser, Page } from '@playwright/test';
 import { generateRandomWord } from './utils/randomWord';
-import {test, expect} from './utils/fixtureShop';
+import {test, expect} from './utils/BaseTestShop';
 
 let browser: Browser;
 let page: Page;
@@ -15,19 +15,22 @@ test.describe('Shopping navigation ', () => {
       });
   
       await test.step(`Click on add to cart `, async ( ) => {
-        await homeShopping.selectFirtItem();
+        await homeShopping.selectFirstItem();
+        await new Promise(resolve => setTimeout(resolve, 2000));
         await expect(page.locator('div').getByRole('button', { name: ' 1 item(s) - $' })).toContainText(' 1 item(s) - $602.00');
       });
 
       await test.step('Click in ckeck cart', async () => {
-        await homeShopping.gotoCheckCart;
+        await homeShopping.gotoCheckCart();
+        await expect(page).toHaveTitle("Shopping Cart");
+
       });
 
       await test.step('Click in ckeck out', async () => {
         await page.getByRole('link', { name: 'Checkout', exact: true }).click();
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        await new Promise(resolve => setTimeout(resolve, 2000));
         await page.getByRole('button', { name: 'Continue' }).click();
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        await new Promise(resolve => setTimeout(resolve, 2000));
         expect(page.locator('#content').getByRole('heading', { name: 'Checkout', exact: true }));
       });
 
@@ -67,10 +70,7 @@ test.describe('Shopping navigation ', () => {
 
       });
 
-      
-
-      //getByRole('link', { name: 'Checkout', exact: true })
-      //getByRole('button', { name: ' 1 item(s) - $' })
+    
 
     });
 
