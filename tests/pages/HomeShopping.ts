@@ -20,6 +20,7 @@ export class HomeShopping extends SuperShoppingPage {
 
     async gotoCheckCart(): Promise <void> {
         try{
+            await expect(this.shoppingCartBoton).toBeVisible();
             this.shoppingCartBoton && await this.shoppingCartBoton.click();
              
         }
@@ -29,13 +30,5 @@ export class HomeShopping extends SuperShoppingPage {
     }
 
 
-    async gotoCheckOut(): Promise <void> {
-        try{
-          
-        }
-        catch (error){
-            throw new Error(`Failed to navigate to Checkout: ${error}`)
-        }
-    }
 
 }
