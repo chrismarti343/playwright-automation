@@ -20,24 +20,21 @@ test.describe('Shopping navigation ', () => {
         await expect(page.locator('div').getByRole('button', { name: ' 1 item(s) - $' })).toContainText(' 1 item(s) - $602.00');
       });
 
-      await test.step('Click in check cart', async () => {
+      await test.step('Go through Cart', async () => {
         await homeShopping.gotoCheckCart();
         await expect(page).toHaveTitle("Shopping Cart");
 
       });
 
-      await test.step('Click in ckeck out', async () => {
+      await test.step('Go through Checkout', async () => {
 
         await checkoutShopping.useGiftPage();
         await new Promise(resolve => setTimeout(resolve, 2000));
-
-
         await checkoutShopping.continueButtonPage();
 
-        
       });
 
-      await test.step('Fill out information ', async () => {
+    await test.step('Fill out information ', async () => {
         
         await checkoutShopping.fillOutInformation({
           firstName: 'Christian',
@@ -52,19 +49,14 @@ test.describe('Shopping navigation ', () => {
         });
         
         await expect(page).toHaveTitle('Checkout');
-        
-        
         await expect(page.locator('#button-register')).toBeVisible();
-
         await page.getByLabel('Region / State').selectOption('3406');
-        await page.locator('input[name="agree"]').click();
-        await page.getByRole('button', { name: 'Continue' }).click();
-        
 
+        await checkoutShopping.acceptConditions();
+        
       });
 
-      await test.step('Verify information have been submitted ', async () => {
-
+    await test.step('Verify information have been submitted ', async () => {
 
         const element2 = await page.locator('#collapse-payment-address');
         await expect(element2).toHaveAttribute('aria-expanded', 'false');
@@ -74,10 +66,5 @@ test.describe('Shopping navigation ', () => {
 
       });
 
-    
-
     });
-
-
-
 })

@@ -14,6 +14,8 @@ export class CheckoutShopping extends SuperShoppingPage {
     address: Locator;
     city: Locator;
     country: Locator;
+    conditions: Locator;
+    continueButton: Locator;
     
 
     constructor(page: Page) {
@@ -28,6 +30,8 @@ export class CheckoutShopping extends SuperShoppingPage {
         this.address = page.getByPlaceholder('Address 1');
         this.city = page.getByPlaceholder('City');
         this.country = page.getByLabel('Country');
+        this.conditions = page.locator('input[name="agree"]');
+        this.continueButton = page.getByRole('button', { name: 'Continue' })
     }
 
     async useGiftPage (): Promise <void> {
@@ -42,7 +46,7 @@ export class CheckoutShopping extends SuperShoppingPage {
 
     async continueButtonPage (): Promise <void> {
         try{
-            await this.continueButton.click();
+            this.continueButton && await this.continueButton.click();
             await new Promise(resolve => setTimeout(resolve, 2000));
             expect(this.page.locator('#content').getByRole('heading', { name: 'Checkout', exact: true }));
         }
@@ -63,21 +67,28 @@ export class CheckoutShopping extends SuperShoppingPage {
         country: string;
     }): Promise<void> {
         try {
-            await this.firstName.fill(params.firstName);
-            await this.lastName.fill(params.lastName);
+            this.firstName && await this.firstName.fill(params.firstName);
+            this.lastName && await this.lastName.fill(params.lastName);
             const randomWord = await generateRandomWord();
-            await this.email.fill(randomWord+'@gmail.com');
-            await this.phone.fill(params.phone);
-            await this.password.fill(params.password);
-            await this.confirmPassword.fill(params.confirmPassword);
-            await this.address.fill(params.address);
-            await this.city.fill(params.city);
+            this.email && await this.email.fill(randomWord+'@gmail.com');
+            this.phone && await this.phone.fill(params.phone);
+            this.password && await this.password.fill(params.password);
+            this.confirmPassword && await this.confirmPassword.fill(params.confirmPassword);
+            this.address && await this.address.fill(params.address);
+            this.city && await this.city.fill(params.city);
             await new Promise(resolve => setTimeout(resolve, 3000));
-            await this.country.selectOption(params.country);
+            this.country && await this.country.selectOption(params.country);
         }
         catch (error) {
             throw new Error(`Failed to fill out information: ${error}`)
         }
+    }
+
+    async acceptConditions ():  Promise <void> {
+        await expect(this.conditions).not.toBeChecked();
+        await this.conditions.click();
+        await expect(this.continueButton).toBeVisible();
+        await this.continueButton.click();
     }
 
 }
