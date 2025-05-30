@@ -85,10 +85,16 @@ export class CheckoutShopping extends SuperShoppingPage {
     }
 
     async acceptConditions ():  Promise <void> {
-        await expect(this.conditions).not.toBeChecked();
-        await this.conditions.click();
-        await expect(this.continueButton).toBeVisible();
-        await this.continueButton.click();
+        try{
+            await expect(this.conditions).not.toBeChecked();
+            await this.conditions.click();
+            await expect(this.continueButton).toBeVisible();
+            await this.continueButton.click();
+
+        }catch (error) {
+            throw new Error ('Failed to accept terms and proceed')
+        }
+        
     }
 
 }
