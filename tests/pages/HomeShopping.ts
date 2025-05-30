@@ -11,6 +11,7 @@ export class HomeShopping extends SuperShoppingPage {
 
     async selectFirstItem(): Promise <void> {
         try {
+            await expect(this.macBook).toBeVisible();
             this.macBook && await this.macBook.click();
         }
         catch (error) {
