@@ -1,7 +1,7 @@
 import {expect, type Locator, type Page} from '@playwright/test';
 import { SuperShoppingPage } from './SuperShoppingPage';
 import { generateRandomWord } from '../utils/randomWord';
-
+import { CustomerInformation } from '../types/shopping.types';
 export class CheckoutShopping extends SuperShoppingPage {
 
     checkoutButton: Locator;
@@ -55,17 +55,7 @@ export class CheckoutShopping extends SuperShoppingPage {
         }
     }
 
-    async fillOutInformation(params: {
-        firstName: string;
-        lastName: string;
-        email: string;
-        phone: string;
-        password: string;
-        confirmPassword: string;
-        address: string;
-        city: string;
-        country: string;
-    }): Promise<void> {
+    async fillOutInformation(params: CustomerInformation): Promise<void> {
         try {
             this.firstName && await this.firstName.fill(params.firstName);
             this.lastName && await this.lastName.fill(params.lastName);
